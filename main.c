@@ -9,7 +9,7 @@ int main () {
     printf("\nNow this is your letter +1: %c", test+1); 
     //printf("\n %c", 'A'+1); \\little quotes '' correspond to chars, "" to strings 
      
-    char message [4], cm; //is the value how many characters/numbers the array message can hold? YES 
+    char message [4], cm;
     int i, key;  
      
     /*printf("\nEnter a message (4 letters) to encrypt: "); 
