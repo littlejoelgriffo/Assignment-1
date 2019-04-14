@@ -6,6 +6,7 @@ int main () {
     char test; 
     printf("Enter a letter for testing: "); 
     scanf("%c", &test); 
+    //test to see if this commit on this fine sunday works
     printf("\nNow this is your letter +1: %c", test+1); 
     //printf("\n %c", 'A'+1); \\little quotes '' correspond to chars, "" to strings 
      
