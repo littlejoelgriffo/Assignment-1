@@ -13,7 +13,7 @@ int main () {
     cm=i=key;
      
     printf("\nEnter a message (4 letters) to encrypt: "); 
-    gets(message); //does this set the letters to values in the array? How do we know that they are 1-26? why does gets not work for me but does with other similar code? 
+    gets(message); //oes this set the letters to values in the array? How do we know that they are 1-26? why does gets not work for me but does with other similar code? 
      
     printf("\nEnter key: "); 
     scanf("%d", &key); */ 
