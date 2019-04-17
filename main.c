@@ -1,23 +1,54 @@
+#include<stdio.h>
+#include<unistd.h>
 
-#include <stdio.h> 
-int main () { 
-    char test; 
-    printf("Enter a letter for testing: "); 
-    scanf("%c", &test); 
-    test=(test+1) %26;
-    printf("\nNow this is your letter +1: %c", test); 
-    /*printf("\n %c", 'A'+1); \\little quotes '' correspond to chars, "" to strings 
-     
-    char message[4], cm;
-    int i, key;  
-    cm=i=key;
-     
-    printf("\nEnter a message (4 letters) to encrypt: "); 
-    gets(message); //oes this set the letters to values in the array? How do we know that they are 1-26? why does gets not work for me but does with other similar code? 
-     
-    printf("\nEnter key: "); 
-    scanf("%d", &key); */ 
+char sub_boi(char Jon);
+
+int main (){
+    char msg[]="ABC";
+    int ls=sizeof(msg)-1; // sets 
     
-    return 0; 
-     
+    /* Convert any lower case  letters to upper case   */
+    /****/for(int i=0; i<ls; i++) {
+    /****/if(msg[i]<=122 && msg[i]>=92)
+    /****/msg[i] = msg[i]-32; }
+    /* Converted any lower case letters to upper case */
+    
+    for (int i=0; i<ls; i++) {
+        printf("%c", sub_boi(msg[i]));
 }
+return 0;
+}
+
+char sub_boi(char Jon) {
+    switch (Jon) {
+        case 'A': Jon = 'G';break;
+        case 'B': Jon = 'P';break;
+        case 'C': Jon = 'H';break;
+        case 'D': Jon = 'G';break;
+        case 'E': Jon = 'P';break;
+        case 'F': Jon = 'H';break;
+        case 'G': Jon = 'G';break;
+        case 'H': Jon = 'P';break;
+        case 'I': Jon = 'N';break;
+        case 'J': Jon = 'G';break;
+        case 'K': Jon = 'T';break;
+        case 'L': Jon = 'O';break;
+        case 'M': Jon = 'G';break;
+        case 'N': Jon = 'I';break;
+        case 'O': Jon = 'S';break;
+        case 'P': Jon = 'G';break;
+        case 'Q': Jon = 'P';break;
+        case 'R': Jon = 'H';break;
+        case 'S': Jon = 'P';break;
+        case 'T': Jon = 'H';break;
+        case 'U': Jon = 'R';break;
+        case 'V': Jon = 'P';break;
+        case 'W': Jon = 'H';break;
+        case 'X': Jon = 'G';break;
+        case 'Y': Jon = 'P';break;
+        case 'Z': Jon = 'E';break;
+    }
+    return Jon;
+    }
+    
+    
