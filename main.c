@@ -2,10 +2,12 @@
 #include<unistd.h>
 
 char sub_boi(char Jon);
+char rotor_boi(char Jon, int key);
 
 int main (){
     char msg[]="ABC";
-    int ls=sizeof(msg)-1; // sets 
+    int ls=sizeof(msg)-1;
+    int i;// sets 
     
     /* Convert any lower case  letters to upper case   */
     /****/for(int i=0; i<ls; i++) {
@@ -13,11 +15,40 @@ int main (){
     /****/msg[i] = msg[i]-32; }
     /* Converted any lower case letters to upper case */
     
-    for (int i=0; i<ls; i++) {
-        printf("%c", sub_boi(msg[i]));
+    // PUT IN MENU HERE
+    int choice;
+
+    while (choice != 666) {
+    printf("Enter 1 for rotation or 2 for substitution, 666 to exit \n");
+    scanf("%d", &choice);
+    //Put menu here
+    
+    switch (choice) {
+        case 1: 
+        
+        for (int i=0; i<ls; i++) {
+        printf("%c", sub_boi(msg[i])); 
+        }
+        break;
+        case 2: 
+        
+        for (i=0; i<ls; i++) {
+            if (msg[i] >= 'A' && msg[i] <= 'Z') {
+                printf("%c", rotor_boi(msg[i], 3); 
+            }
+            else {
+                printf("%c", msg[i]);
+            } 
+        }
+        break;
+        
+
+        }
 }
 return 0;
+
 }
+
 
 char sub_boi(char Jon) {
     switch (Jon) {
@@ -51,4 +82,11 @@ char sub_boi(char Jon) {
     return Jon;
     }
     
+    
+    char rotor_boi(char Jon, int key) {
+        Jon = 'H';
+        return Jon;
+        
+}    
+
     
