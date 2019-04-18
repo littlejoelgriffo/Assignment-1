@@ -9,32 +9,29 @@ int main (){
     int ls=sizeof(msg)-1;
     int i;// sets 
     
-    /* Convert any lower case  letters to upper case   */
+    /* Convert any lower case  letters to upper case  */
     /****/for(int i=0; i<ls; i++) {
-    /****/if(msg[i]<=122 && msg[i]>=92)
-    /****/msg[i] = msg[i]-32; }
+    /****/if(msg[i]<=122 && msg[i]>=92) {
+    /****/msg[i] = msg[i]-32; } }
     /* Converted any lower case letters to upper case */
     
     // PUT IN MENU HERE
     int choice;
-
     while (choice != 666) {
-    printf("Enter 1 for rotation or 2 for substitution, 666 to exit \n");
+    printf("\nEnter 1 for rotation or 2 for substitution, 666 to exit \n");
     scanf("%d", &choice);
     //Put menu here
     
     switch (choice) {
-        case 1: 
-        
+        case 1:                         //Case for if substitution is chosen
         for (int i=0; i<ls; i++) {
         printf("%c", sub_boi(msg[i])); 
         }
         break;
-        case 2: 
-        
+        case 2:                         //Case for if rotation is chosen
         for (i=0; i<ls; i++) {
             if (msg[i] >= 'A' && msg[i] <= 'Z') {
-                printf("%c", rotor_boi(msg[i], 3); 
+                printf("%c", rotor_boi(msg[i], 0)); 
             }
             else {
                 printf("%c", msg[i]);
@@ -84,7 +81,11 @@ char sub_boi(char Jon) {
     
     
     char rotor_boi(char Jon, int key) {
-        Jon = 'H';
+        Jon = Jon + key;
+        if (Jon > 'Z')
+         Jon = Jon - 26; /*This is to rotate any letters that 'fall of the end' of the alphabet
+         back to the beginning. I have not included a statement for if the key makes the letter <
+         A as the assignment specifies key <26 & >0 */
         return Jon;
         
 }    
