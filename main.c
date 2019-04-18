@@ -1,24 +1,25 @@
 #include<stdio.h>
 #include<unistd.h>
 
+char lower2upper(char Jon);
 char sub_boi(char Jon);
 char rotor_boi(char Jon, int key);
 
 int main (){
-    char msg[]="ABC";
+    char msg[]="AbcZ!@";
     int ls=sizeof(msg)-1;
     int i;// sets 
     
     /* Convert any lower case  letters to upper case  */
     /****/for(int i=0; i<ls; i++) {
-    /****/if(msg[i]<=122 && msg[i]>=92) {
-    /****/msg[i] = msg[i]-32; } }
+        msg[i]=lower2upper(msg[i]);
+    /****/}
     /* Converted any lower case letters to upper case */
     
     // PUT IN MENU HERE
     int choice;
     while (choice != 666) {
-    printf("\nEnter 1 for rotation or 2 for substitution, 666 to exit \n");
+    printf("\nEnter 1 for substitution or 2 for rotation, 666 to exit \n");
     scanf("%d", &choice);
     //Put menu here
     
@@ -30,23 +31,25 @@ int main (){
         break;
         case 2:                         //Case for if rotation is chosen
         for (i=0; i<ls; i++) {
-            if (msg[i] >= 'A' && msg[i] <= 'Z') {
-                printf("%c", rotor_boi(msg[i], 0)); 
-            }
-            else {
-                printf("%c", msg[i]);
-            } 
+            printf("%c", rotor_boi(msg[i], 1)); 
         }
         break;
         
 
         }
 }
+printf("\n->Thanks for using this program brought to you by the Gabeage Bin :D");
 return 0;
 
 }
 
-
+char lower2upper(char Jon) {
+if(Jon<=122 && Jon>=92) {
+  Jon = Jon-32; } 
+  return Jon;
+}
+    
+    
 char sub_boi(char Jon) {
     switch (Jon) {
         case 'A': Jon = 'G';break;
@@ -81,13 +84,20 @@ char sub_boi(char Jon) {
     
     
     char rotor_boi(char Jon, int key) {
-        Jon = Jon + key;
-        if (Jon > 'Z')
-         Jon = Jon - 26; /*This is to rotate any letters that 'fall of the end' of the alphabet
+        if (Jon >= 'A' && Jon <= 'Z') {
+                Jon = Jon + key;
+          if (Jon > 'Z')
+             Jon = Jon - 26; /*This is to rotate any letters that 'fall of the end' of the alphabet
          back to the beginning. I have not included a statement for if the key makes the letter <
          A as the assignment specifies key <26 & >0 */
+        }
+        else 
+        Jon=Jon;
+             
+        
+        
         return Jon;
         
-}    
+      }    
 
     
