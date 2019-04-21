@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <unistd.h>
+int main()
+{
+
+char message[] = "SJSFMPCRM WG O USBWIG. PIH WT MCI XIRUS O TWGV PM WHG OPWZWHM HC QZWAP O HFSS, WH KWZZ ZWJS WHG KVCZS ZWTS PSZWSJWBU HVOH WH WG GHIDWR. - OZPSFH SWBGHSWB";
+int size=sizeof(message)-1;
+int newArray[26];
+int times=0;
+int c=0;
+char placeofLarge=0;
+char mynan='A';
+char alphabet[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char lettertest='A';
+    
+    for(int a=0; a<=26;a++){
+        //record a at the point that times is the greatest
+        
+        times=0;//should reset to 0...
+        
+        for(int b=0; b<=size; b++){
+            if(message[b] == lettertest){
+                times++;
+                
+            }
+        }
+    
+    newArray[c] = times;
+    printf("%d\n", newArray[c]);
+    c++;
+    lettertest++;
+    }
+    
+    int largest = newArray[0];
+    
+    for(int i=0; i<26;i++){//fiding the most common letter
+       if(newArray[i]>largest){
+          largest = newArray[i];
+           placeofLarge = i+'A';
+           
+       } 
+    }
+    //mynan=mynan+placeofLarge;
+printf("\n%c\n", placeofLarge);
+printf("\n%d\n", largest);
+printf("HERE IS MOST COMMON LETTER (CODED):%c", placeofLarge);
+
+return 0;
+}
