@@ -4,12 +4,13 @@
 char lower2upper(char Jon);
 char sub_boi(char Jon);
 char rotor_boi(char Jon, int key);
+char kingrotor_boi(char *msg);
 
 int main (){
-    char msg[]="AbcZ!@";
+    char msg[]="Yeot";
     int ls=sizeof(msg)-1;
-    int i;// sets 
-    
+    int i; // sets 
+    //printf("%d", ls);
     /* Convert any lower case  letters to upper case  */
     /****/for(int i=0; i<ls; i++) {
         msg[i]=lower2upper(msg[i]);
@@ -29,14 +30,16 @@ int main (){
         printf("%c", sub_boi(msg[i])); 
         }
         break;
-        case 2:                         //Case for if rotation is chosen
+        case 2:;                        //Case for if rotation is chosen
+        int key;
+        printf("Enter a number between 1 and 25 for the rotation key: ");
+        scanf("%d", &key);
+        printf("\n");
         for (i=0; i<ls; i++) {
-            printf("%c", rotor_boi(msg[i], 1)); 
+            printf("%c", rotor_boi(msg[i], key)); 
         }
         break;
-        
-
-        }
+    }
 }
 printf("\n->Thanks for using this program brought to you by the Gabeage Bin :D");
 return 0;
@@ -80,9 +83,8 @@ char sub_boi(char Jon) {
         case 'Z': Jon = 'E';break;
     }
     return Jon;
-    }
-    
-    
+}
+
     char rotor_boi(char Jon, int key) {
         if (Jon >= 'A' && Jon <= 'Z') {
                 Jon = Jon + key;
@@ -91,11 +93,9 @@ char sub_boi(char Jon) {
          back to the beginning. I have not included a statement for if the key makes the letter <
          A as the assignment specifies key <26 & >0 */
         }
-        else 
+        else  //
         Jon=Jon;
-             
-        
-        
+
         return Jon;
         
       }    
