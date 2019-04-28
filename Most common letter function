@@ -3,7 +3,9 @@
 
 char lower2upper(char Jon);
 char sub_boi(char Jon);
+char sub_boi_d(char Jon);
 char rotor_boi(char Jon, int key);
+char rotor_boi_d(char Jon, int key);
 char kingrotor_boi(char *msg, int ls, int debug);
 
 int main (){
@@ -21,17 +23,12 @@ int main (){
     // PUT IN MENU HERE
     int choice;
     while (choice != 666) {
-    printf("\n->Enter 1 for substitution given key\n2 for rotation given key\n3 for rotation without a key given. \n->Enter 666 to exit \n");
+    printf("\n->Enter 1 for Rotation Encryption given key\n2 for Rotation Decryption given key\n3 for Substitution Encryption (key given)\n4 for Subsitution Decryption (key given)\n5 for Rotation Decryption without key\n->Enter 666 to exit \n");
     scanf("%d", &choice);
     //Put menu here
     
     switch (choice) {
-        case 1:                         //Case for if substitution is chosen
-        for (int i=0; i<ls; i++) {
-        printf("%c", sub_boi(msg[i])); 
-        }
-        break;
-        case 2:;                         //Case for if rotation is chosen
+        case 1:;                         //Case for if rotation is chosen
         int key=0;
         printf("Enter a number between 1 and 25 for the rotation key: ");
         scanf("%d", &key);
@@ -40,7 +37,27 @@ int main (){
             printf("%c", rotor_boi(msg[i], key)); 
         }
         break;
-        case 3: 
+        case 2:;                         //Case for if rotation decryption is chosen
+        key=0;
+        printf("Enter a number between 1 and 25 for the rotation key: ");
+        scanf("%d", &key);
+        printf("\n");
+        for (i=0; i<ls; i++) {
+            printf("%c", rotor_boi_d(msg[i], key)); 
+        }
+        break;
+        case 3:                         //Case for if substitution is chosen
+        for (int i=0; i<ls; i++) {
+        printf("%c", sub_boi(msg[i])); 
+        }
+        break;
+        case 4:                         //Case for if substitution is chosen
+        for (int i=0; i<ls; i++) {
+        printf("%c", sub_boi_d(msg[i])); 
+        }
+        break;
+        
+        case 5: 
         kingrotor_boi(msg, ls, debug);
         break;
     }
@@ -62,29 +79,29 @@ char sub_boi(char Jon) {
         case 'A': Jon = 'G';break;
         case 'B': Jon = 'P';break;
         case 'C': Jon = 'H';break;
-        case 'D': Jon = 'G';break;
-        case 'E': Jon = 'P';break;
-        case 'F': Jon = 'H';break;
-        case 'G': Jon = 'G';break;
-        case 'H': Jon = 'P';break;
-        case 'I': Jon = 'N';break;
-        case 'J': Jon = 'G';break;
-        case 'K': Jon = 'T';break;
+        case 'D': Jon = 'W';break;
+        case 'E': Jon = 'V';break;
+        case 'F': Jon = 'U';break;
+        case 'G': Jon = 'T';break;
+        case 'H': Jon = 'S';break;
+        case 'I': Jon = 'R';break;
+        case 'J': Jon = 'Q';break;
+        case 'K': Jon = 'Y';break;
         case 'L': Jon = 'O';break;
-        case 'M': Jon = 'G';break;
-        case 'N': Jon = 'I';break;
-        case 'O': Jon = 'S';break;
-        case 'P': Jon = 'G';break;
-        case 'Q': Jon = 'P';break;
-        case 'R': Jon = 'H';break;
-        case 'S': Jon = 'P';break;
-        case 'T': Jon = 'H';break;
-        case 'U': Jon = 'R';break;
-        case 'V': Jon = 'P';break;
-        case 'W': Jon = 'H';break;
-        case 'X': Jon = 'G';break;
-        case 'Y': Jon = 'P';break;
-        case 'Z': Jon = 'E';break;
+        case 'M': Jon = 'N';break;
+        case 'N': Jon = 'M';break;
+        case 'O': Jon = 'L';break;
+        case 'P': Jon = 'K';break;
+        case 'Q': Jon = 'J';break;
+        case 'R': Jon = 'I';break;
+        case 'S': Jon = 'X';break;
+        case 'T': Jon = 'Z';break;
+        case 'U': Jon = 'F';break;
+        case 'V': Jon = 'E';break;
+        case 'W': Jon = 'D';break;
+        case 'X': Jon = 'C';break;
+        case 'Y': Jon = 'B';break;
+        case 'Z': Jon = 'A';break;
     }
     return Jon;
 }
@@ -106,7 +123,7 @@ char sub_boi(char Jon) {
 
 char kingrotor_boi(char *msg, int ls, int debug) {
     printf("Here is the input encrypted message: %s\n", msg);
-    char engtest[ls];
+    char decryptmsg[ls];
     char alpha_m8[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     char ehtayz[] = {'E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'H', 'L', 'D', 'C'};
 int alpha_count[25];
@@ -146,20 +163,20 @@ for (int m = 0; m <= 12; m++) {
     
 //Rotor code:
         for (i = 0; i < ls; i++) {
-        engtest[i] = rotor_boi(msg[i], key);
+        decryptmsg[i] = rotor_boi(msg[i], key);
         if (debug == 1)
-            printf("%c", engtest[i]);
+            printf("%c", decryptmsg[i]);
     }
     if (debug == 1)
         printf("\n");           //Simply makes different rotation cipher code easier to read.
     if (debug == 1)
-        printf("the key shift to be tested is: %s", engtest);
+        printf("the key shift to be tested is: %s", decryptmsg);
     for (int i = 0; i < ls; i++) {
-        if (engtest[i] == 32) {
+        if (decryptmsg[i] == 32) {
             i++;
-            if (engtest[i] == 'A') {
+            if (decryptmsg[i] == 'A') {
                 i++;
-                if (engtest[i] == 32) {
+                if (decryptmsg[i] == 32) {
                     if (debug == 1)
                         printf("\nA has been found.");
                     passornahh = passornahh + 50;
@@ -169,16 +186,16 @@ for (int m = 0; m <= 12; m++) {
         }
     }
     for (int i = 0; i < ls; i++) {
-        if (engtest[i] == 32) {
+        if (decryptmsg[i] == 32) {
             i++;
-        if (engtest[i] == 'T') {
+        if (decryptmsg[i] == 'T') {
             i++;
-            if (engtest[i] == 'H') {
+            if (decryptmsg[i] == 'H') {
                 i++;
-                if (engtest[i] == 'E') {
+                if (decryptmsg[i] == 'E') {
                     i++;
                 }
-                if (engtest[i] == 32) {
+                if (decryptmsg[i] == 32) {
                     if (debug == 1)
                         printf("\nTHE has been found.");
                     passornahh = passornahh + 50;
@@ -191,13 +208,13 @@ for (int m = 0; m <= 12; m++) {
     }
 
     for (int i = 0; i < ls; i++) {
-        if (engtest[i] == 32) {
+        if (decryptmsg[i] == 32) {
             i++;
-        if (engtest[i] == 'T') {
+        if (decryptmsg[i] == 'T') {
             i++;
-            if (engtest[i] == 'O') {
+            if (decryptmsg[i] == 'O') {
                 i++;
-                if (engtest[i] == 32) {
+                if (decryptmsg[i] == 32) {
                     if (debug == 1)
                         printf("\n TO has been found.");
                     passornahh = passornahh + 50;
@@ -209,13 +226,13 @@ for (int m = 0; m <= 12; m++) {
         }
     }
     for (int i = 0; i < ls; i++) {
-        if (engtest[i] == 32) {
+        if (decryptmsg[i] == 32) {
             i++;
-        if (engtest[i] == 'O') {
+        if (decryptmsg[i] == 'O') {
             i++;
-            if (engtest[i] == 'F') {
+            if (decryptmsg[i] == 'F') {
                 i++;
-                if (engtest[i] == 32) {
+                if (decryptmsg[i] == 32) {
                     if (debug == 1)
                         printf("\n OF has been found.");
                     passornahh = passornahh + 50;
@@ -229,15 +246,64 @@ for (int m = 0; m <= 12; m++) {
     if (passornahh >= 100) {
         printf("\nThe message decrypted is: \n");
         for (i = 0; i < ls; i++) {
-            printf("%c", engtest[i]);
+            printf("%c", decryptmsg[i]);
         }
         m = 666;               //This is to exit the for loop depending on the variable m, as the other ehtayz letters do not need to be tested once the correct key is found.
     }
-}                             //This is the end of the for loop dictating the lettertest.  
+}                            
 
 return 0;
 
+    } 
+
+
+char rotor_boi_d(char Jon, int key){
+    if (Jon >= 'A' && Jon <= 'Z') {
+                Jon = Jon - key;
+          if (Jon < 'Z')
+             Jon = Jon + 26; /*This is to rotate any letters that 'fall of the end' of the alphabet
+         back into the A to Z range. I have not included a statement for if the key makes the letter >
+         A as the assignment specifies 0<key<26 */
+        }
+        else  //
+        Jon=Jon;
+
+        return Jon;
+        
+    
+}
+
+char sub_boi_d(char Jon) {
+    switch (Jon) {
+        case 'A': Jon = 'G';break;
+        case 'B': Jon = 'P';break;
+        case 'C': Jon = 'H';break;
+        case 'D': Jon = 'W';break;
+        case 'E': Jon = 'V';break;
+        case 'F': Jon = 'U';break;
+        case 'G': Jon = 'T';break;
+        case 'H': Jon = 'S';break;
+        case 'I': Jon = 'R';break;
+        case 'J': Jon = 'Q';break;
+        case 'K': Jon = 'Y';break;
+        case 'L': Jon = 'O';break;
+        case 'M': Jon = 'N';break;
+        case 'N': Jon = 'M';break;
+        case 'O': Jon = 'L';break;
+        case 'P': Jon = 'K';break;
+        case 'Q': Jon = 'J';break;
+        case 'R': Jon = 'I';break;
+        case 'S': Jon = 'X';break;
+        case 'T': Jon = 'Z';break;
+        case 'U': Jon = 'F';break;
+        case 'V': Jon = 'E';break;
+        case 'W': Jon = 'D';break;
+        case 'X': Jon = 'C';break;
+        case 'Y': Jon = 'B';break;
+        case 'Z': Jon = 'A';break;
     }
+    return Jon;
+}
 
 
     
