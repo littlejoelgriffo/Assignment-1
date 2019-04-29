@@ -10,7 +10,7 @@ char kingrotor_boi(char *msg, int ls, int debug);
 
 int main (){
     int debug=0; //This is to switch on and off some extra printfs that in the case of things going wrong may make the problem clearer to see. Change to =1 to enable.
-    char msg[]="TVU TVAOTH: AOL KHAH IYVBNOA AV BZ IF AOL IVAOHU ZWPLZ WPUWVPUAZ AOL LEHJA SVJHAPVU VM AOL LTWLYVY'Z ULD IHAASL ZAHAPVU. DL HSZV RUVD AOHA AOL DLHWVU ZFZALTZ VM AOPZ KLHAO ZAHY HYL UVA FLA VWLYHAPVUHS. DPAO AOL PTWLYPHS MSLLA ZWYLHK AOYVBNOVBA AOL NHSHEF PU H CHPU LMMVYA AV LUNHNL BZ, PA PZ YLSHAPCLSF BUWYVALJALK. IBA TVZA PTWVYAHUA VM HSS, DL'CL SLHYULK AOHA AOL LTWLYVY OPTZLSM PZ WLYZVUHSSF VCLYZLLPUN AOL MPUHS ZAHNLZ VM AOL JVUZAYBJAPVU VM AOPZ KLHAO ZAHY. THUF IVAOHUZ KPLK AV IYPUN BZ AOPZ PUMVYTHAPVU.";
+    char msg[]="ABCD";
     int ls=sizeof(msg)-1;
     int i; // sets 
     //printf("%d", ls);
@@ -76,9 +76,9 @@ if(Jon<=122 && Jon>=92) {
     
 char sub_boi(char Jon) {
     switch (Jon) {
-        case 'A': Jon = 'G';break;
-        case 'B': Jon = 'P';break;
-        case 'C': Jon = 'H';break;
+        case 'A': Jon = 'Z';break;
+        case 'B': Jon = 'Y';break;
+        case 'C': Jon = 'X';break;
         case 'D': Jon = 'W';break;
         case 'E': Jon = 'V';break;
         case 'F': Jon = 'U';break;
@@ -86,7 +86,7 @@ char sub_boi(char Jon) {
         case 'H': Jon = 'S';break;
         case 'I': Jon = 'R';break;
         case 'J': Jon = 'Q';break;
-        case 'K': Jon = 'Y';break;
+        case 'K': Jon = 'P';break;
         case 'L': Jon = 'O';break;
         case 'M': Jon = 'N';break;
         case 'N': Jon = 'M';break;
@@ -94,8 +94,8 @@ char sub_boi(char Jon) {
         case 'P': Jon = 'K';break;
         case 'Q': Jon = 'J';break;
         case 'R': Jon = 'I';break;
-        case 'S': Jon = 'X';break;
-        case 'T': Jon = 'Z';break;
+        case 'S': Jon = 'H';break;
+        case 'T': Jon = 'G';break;
         case 'U': Jon = 'F';break;
         case 'V': Jon = 'E';break;
         case 'W': Jon = 'D';break;
@@ -260,7 +260,7 @@ return 0;
 char rotor_boi_d(char Jon, int key){
     if (Jon >= 'A' && Jon <= 'Z') {
                 Jon = Jon - key;
-          if (Jon < 'Z')
+          if (Jon < 'A')
              Jon = Jon + 26; /*This is to rotate any letters that 'fall of the end' of the alphabet
          back into the A to Z range. I have not included a statement for if the key makes the letter >
          A as the assignment specifies 0<key<26 */
@@ -276,25 +276,25 @@ char rotor_boi_d(char Jon, int key){
 char sub_boi_d(char Jon) {
     switch (Jon) {
         case 'A': Jon = 'Z';break;
-        case 'B': Jon = 'K';break;
-        case 'C': Jon = 'H';break;
+        case 'B': Jon = 'Y';break;
+        case 'C': Jon = 'X';break;
         case 'D': Jon = 'W';break;
         case 'E': Jon = 'V';break;
         case 'F': Jon = 'U';break;
-        case 'G': Jon = 'A';break;
-        case 'H': Jon = 'C';break;
+        case 'G': Jon = 'T';break;
+        case 'H': Jon = 'S';break;
         case 'I': Jon = 'R';break;
         case 'J': Jon = 'Q';break;
-        case 'K': Jon = 'Y';break;
+        case 'K': Jon = 'P';break;
         case 'L': Jon = 'O';break;
         case 'M': Jon = 'N';break;
         case 'N': Jon = 'M';break;
         case 'O': Jon = 'L';break;
-        case 'P': Jon = 'B';break;
+        case 'P': Jon = 'K';break;
         case 'Q': Jon = 'J';break;
         case 'R': Jon = 'I';break;
         case 'S': Jon = 'H';break;
-        case 'T': Jon = 'Z';break;
+        case 'T': Jon = 'G';break;
         case 'U': Jon = 'F';break;
         case 'V': Jon = 'E';break;
         case 'W': Jon = 'D';break;
@@ -304,3 +304,6 @@ char sub_boi_d(char Jon) {
     }
     return Jon;
 }
+
+
+    
