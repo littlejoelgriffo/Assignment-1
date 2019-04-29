@@ -122,10 +122,16 @@ char rotor_boi(char Jon, int key)
                                    A as the assignment specifies key <26 & >0 */
     }
 
-    else                        //
+    else                        //In the case of non-letters being processed, they are kept the same and the program returns it as is.
         Jon = Jon;
     return Jon;
 }
+/*
+This function below has the hardcoded message from the int main passed in, the size of the said array/string passed in, and the binary debug value.
+It find the most commonly used letter in the coded text and finds the necessary key to rotate it to the most commonly used letter in the english
+language (e). It then tests for english words and if they are found, prints the decoded message. Failing that it attempts the next commonly used letters in the english language.
+
+ */
 char kingrotor_boi(char *msg, int ls, int debug)
 {
     printf("Here is the input encrypted message: %s\n", msg);
@@ -259,14 +265,14 @@ char kingrotor_boi(char *msg, int ls, int debug)
 char rotor_boi_d(char Jon, int key)
 {
     if (Jon >= 'A' && Jon <= 'Z') {
-        Jon = Jon - key;
+        Jon = Jon - key; //The key difference between the encryption and decryption functions are the + or - before the key.
         if (Jon < 'A')
             Jon = Jon + 26;     /*This is to rotate any letters that 'fall of the end' of the alphabet
                                    back into the A to Z range. I have not included a statement for if the key makes the letter >
                                    A as the assignment specifies 0<key<26 */
     }
 
-    else                        //
+    else                        //In the case of non-letters being processed, they are kept the same and the program returns it as is.
         Jon = Jon;
     return Jon;
 }
