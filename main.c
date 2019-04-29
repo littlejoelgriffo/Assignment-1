@@ -10,7 +10,7 @@ char kingrotor_boi(char *msg, int ls, int debug);
 
 int main (){
     int debug=0; //This is to switch on and off some extra printfs that in the case of things going wrong may make the problem clearer to see. Change to =1 to enable.
-    char msg[]="ABCD";
+    char msg[]="ABCDEF";
     int ls=sizeof(msg)-1;
     int i; // sets 
     //printf("%d", ls);
