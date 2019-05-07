@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+void pixelMean(float *r, float *g, float *b);
 
 int main() {
 float image[5][5][3];
 int x, y;
-float sum=0;
-// Don’t change this srand() line!
+//float sum=0; //Gabe's line
 srand(0);
 for(y = 0; y < 5; y++) {
 for(x = 0; x < 5; x++) {
@@ -15,14 +15,11 @@ image[x][y][1] = (float)rand()/(float)INT_MAX; //Green intensity
 image[x][y][2] = (float)rand()/(float)INT_MAX; //Blue intensity
 }
 }
+//Gabe's code:
 
 for (y=0; y<=1; y++){
     for (x=0; x<=4; x++){
-        sum=0;
-        sum=(image[x][y][0]+image[x][y][1]+image[x][y][2])/3;
-        image[x][y][0]=sum;
-        image[x][y][1]=sum;
-        image[x][y][2]=sum;
+pixelMean(&image[x][y][0], &image[x][y][1], &image[x][y][2]);
     }
 }
 
@@ -38,3 +35,13 @@ for (y=0; y<=1; y++){
 // ----------------------------------------
 return 0;
 }
+
+
+void pixelMean(float *r, float *g, float *b){
+        float sum=0;
+        sum=(*r+*g+*b)/3;
+        *r=sum;
+        *g=sum;
+        *b=sum;
+}
+
