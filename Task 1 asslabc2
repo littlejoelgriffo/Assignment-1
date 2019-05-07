@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int main() {
+float image[5][5][3];
+int x, y;
+float sum=0;
+// Don’t change this srand() line!
+srand(0);
+for(y = 0; y < 5; y++) {
+for(x = 0; x < 5; x++) {
+image[x][y][0] = (float)rand()/(float)INT_MAX; //Red intensity
+image[x][y][1] = (float)rand()/(float)INT_MAX; //Green intensity
+image[x][y][2] = (float)rand()/(float)INT_MAX; //Blue intensity
+}
+}
+
+for (y=0; y<=1; y++){
+    for (x=0; x<=4; x++){
+        sum=0;
+        sum=(image[x][y][0]+image[x][y][1]+image[x][y][2])/3;
+        image[x][y][0]=sum;
+        image[x][y][1]=sum;
+        image[x][y][2]=sum;
+    }
+}
+
+for (y=0; y<=1; y++){
+    for (x=0; x<=4; x++){
+        printf("%d %d: %f ", x, y, image[x][y][0]);
+        printf("%f ",  image[x][y][1]);
+        printf("%f\n", image[x][y][2]);
+    }
+}
+// ----------------------------------------
+// Write your code below this comment block
+// ----------------------------------------
+return 0;
+}
