@@ -1,0 +1,21 @@
+clc;
+close all;
+clear all;
+x=imread("catho.png");
+% r=x(:,:,1);
+% g=x(:,:,2);
+% b=x(:,:,3);
+
+r=double(x(:,:,1));
+g=double(x(:,:,2));
+b=double(x(:,:,3));
+
+grey=(r+g+b)/3;
+greyx(:,:,1) = grey;
+greyx(:,:,2) = grey;
+greyx(:,:,3) = grey;
+greyx = uint8(greyx);
+y=imresize(x, 1/10);
+
+
+
