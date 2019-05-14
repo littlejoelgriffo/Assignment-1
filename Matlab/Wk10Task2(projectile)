@@ -1,0 +1,13 @@
+clc;
+close all;
+clear all;
+v0 = 15;
+theta=pi/4;
+time=-2*v0*sin(theta)/-9.8;
+
+t = linspace(0,time,60);
+x = v0*t*cos(theta);
+y = v0*t*sin(theta) + 0.5*-9.8*t.^2;
+% if y<=0; break; end
+
+plot(x,y)
