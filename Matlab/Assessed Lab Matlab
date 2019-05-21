@@ -1,0 +1,18 @@
+clc;
+close all;
+clear all;
+%**************
+%Task 1
+%**************
+f=2;
+k=-1; 
+t = linspace(0,5,1000); %This creates a double array which begins at 0, ends at 5 and has a total of 1000 equidistant values.
+y = (2.7^k .*t).*sin(2*pi*f .*t); %This is the formula to calculate the voltage over time
+%y becomes an array with 100 values, a different one for each t value
+
+plot (t,y)
+xlabel('Time(s)')
+ylabel('Voltage(V)')
+title('Damped Decay')
+
+
