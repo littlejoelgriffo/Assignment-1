@@ -1,4 +1,4 @@
-const int numReadings = 2;
+const int numReadings = 3;
 int readings[numReadings]; // the readings from the analog input
 int readIndex = 0; // the index of the current reading
 int total = 0; // the running total
@@ -17,7 +17,7 @@ unsigned long time = 0;
 unsigned long peak1 = 0;
 unsigned long peak2 = 0;
 unsigned long bpm;
-//int i=0; //don't think i need, can't find where i is used in code
+int i=0; //don't think i need, can't find where i is used in code
 void loop() {
 time = millis();
 // subtract the last reading:
@@ -37,17 +37,19 @@ readIndex = 0;
 average = total / numReadings;
 // send it to the computer as ASCII digits
 Serial.println(average);
-Serial.println(" ");
-while (average<370){
-  binaryrange=0;
-}
-if (average>370 && binaryrange==0){
+
+//This is code for BPM:
+/*Serial.println(" ");
+while (average<365){
+  binaryrange=0; }
+if (average>365 && binaryrange==0){
   peak1=peak2;
-  peak2=average;
+  peak2=time;
   bpm=6000/(peak2-peak1);
-  binaryrange++;
-  Serial.print("bpm");
+  binaryrange=1;
+  //Serial.print(bpm);
 } 
+*/
 delay(8); // delay in between reads for stability
-//i++; //don't think i need, can't find where i is used in code
+i++; //don't think i need, can't find where i is used in code
 }
