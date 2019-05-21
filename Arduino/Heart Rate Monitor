@@ -16,7 +16,7 @@ readings[thisReading] = 0;
 unsigned long time = 0;
 unsigned long peak1 = 0;
 unsigned long peak2 = 0;
-unsigned long bpm;
+int bpm;
 int i=0; //don't think i need, can't find where i is used in code
 void loop() {
 time = millis();
@@ -36,20 +36,23 @@ readIndex = 0;
 // calculate the average:
 average = total / numReadings;
 // send it to the computer as ASCII digits
-Serial.println(average);
+//Serial.print(average);
 
 //This is code for BPM:
-/*Serial.println(" ");
-while (average<365){
+int threshold=500;
+if (average<threshold){
   binaryrange=0; }
-if (average>365 && binaryrange==0){
+if (average>threshold && binaryrange==0){
   peak1=peak2;
   peak2=time;
-  bpm=6000/(peak2-peak1);
+  bpm=60000/(peak2-peak1);
   binaryrange=1;
-  //Serial.print(bpm);
-} 
-*/
+  } 
+    //Serial.print(" ");
+  Serial.println(bpm);
+
+
+
 delay(8); // delay in between reads for stability
 i++; //don't think i need, can't find where i is used in code
 }
