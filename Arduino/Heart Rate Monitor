@@ -36,10 +36,10 @@ readIndex = 0;
 // calculate the average:
 average = total / numReadings;
 // send it to the computer as ASCII digits
-//Serial.print(average);
+Serial.print(average);
 
 //This is code for BPM:
-int threshold=500;
+int threshold=460;
 if (average<threshold){
   binaryrange=0; }
 if (average>threshold && binaryrange==0){
@@ -48,7 +48,7 @@ if (average>threshold && binaryrange==0){
   bpm=60000/(peak2-peak1);
   binaryrange=1;
   } 
-    //Serial.print(" ");
+   Serial.print(" ");
   Serial.println(bpm);
 
 
