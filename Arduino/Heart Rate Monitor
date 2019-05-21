@@ -1,27 +1,34 @@
-const int numReadings = 3;
-int readings[numReadings]; // the readings from the analog input
+//Global Variables for moving median:
+int numReadings = 100; // number of samples to take
+int median = 0;      // median of the sorted samples
+int readingNumber;   // counter for the sample array
+byte position = 0;
+int analogValues[100];
+//Global variables for moving median ^^
+
+int threshold = 0;
+const int numReadingsA0 = 3;
+int readings[numReadingsA0]; // the readings from the analog input
 int readIndex = 0; // the index of the current reading
 int total = 0; // the running total
-int average = 0; // the average
+int average = 0; // the average which we will display as ECG
 int inputPin = A0;
-int binaryrange;
 void setup() {
 // initialize serial communication with computer:
 Serial.begin(115200);
 // initialize all the readings to 0:
-for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+for (int thisReading = 0; thisReading < numReadingsA0; thisReading++) {
 readings[thisReading] = 0;
 }
 }
-unsigned long time = 0;
-unsigned long peak1 = 0;
-unsigned long peak2 = 0;
-int bpm;
-int i=0; //don't think i need, can't find where i is used in code
+unsigned long time = 0, peak1 = 0, peak2 = 0;
+int binaryrange, bpm, i=0; //not sure what i does tbh
 void loop() {
 time = millis();
-// subtract the last reading:
-total = total - readings[readIndex];
+//*************************************************
+//***Moving Average ECG code (from lab template)
+//*************************************************
+total = total - readings[readIndex]; // subtract the last reading
 // read from the sensor:
 readings[readIndex] = analogRead(inputPin);
 // add the reading to the total:
@@ -29,17 +36,32 @@ total = total + readings[readIndex];
 // advance to the next position in the array:
 readIndex = readIndex + 1;
 // if we’re at the end of the array...
-if (readIndex >= numReadings) {
+if (readIndex >= numReadingsA0) {
 // ...wrap around to the beginning:
 readIndex = 0;
 }
 // calculate the average:
-average = total / numReadings;
+average = total / numReadingsA0;
 // send it to the computer as ASCII digits
 Serial.print(average);
 
-//This is code for BPM:
-int threshold=460;
+//*************************************************
+//***Experimental Median Shart (to determine BPM threshold)
+//*************************************************
+for (readingNumber = 0; readingNumber < numReadings; readingNumber++) {
+    //get the reading:
+    analogValues[readingNumber] = average;
+    readingNumber++;
+  }
+  small2big();  // sort the array in order small -> large
+  median = analogValues[numReadings / 2]; //gets the median
+  threshold=median+60;
+//^^ Experimental median shart
+
+//***************
+//***BPM Code:
+//***************
+//int threshold=460; //if shit goes wrong with bpm, activate and play with value
 if (average<threshold){
   binaryrange=0; }
 if (average>threshold && binaryrange==0){
@@ -50,9 +72,23 @@ if (average>threshold && binaryrange==0){
   } 
    Serial.print(" ");
   Serial.println(bpm);
-
+//BPM code ^^
 
 
 delay(8); // delay in between reads for stability
-i++; //don't think i need, can't find where i is used in code
+i++; 
+}
+
+void small2big() {
+  int out, in, swapper;
+  for(out=0 ; out < numReadings; out++) {  // outer loop
+    for(in=out; in<(numReadings-1); in++)  {  // inner loop
+      if( analogValues[in] > analogValues[in+1] ) { 
+        // swap them:
+        swapper = analogValues[in];
+        analogValues [in] = analogValues[in+1];
+        analogValues[in+1] = swapper;
+      }
+    }
+  }
 }
