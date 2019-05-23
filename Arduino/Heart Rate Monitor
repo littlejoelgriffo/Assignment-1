@@ -1,3 +1,8 @@
+#include <Adafruit_GFX.h>
+#include <Adafruit_SPITFT.h>
+#include <Adafruit_SPITFT_Macros.h>
+#include <gfxfont.h>
+
 //Global Variables for moving median:
 int numReadings = 100; // number of samples to take
 int median = 0;      // median of the sorted samples
@@ -53,7 +58,17 @@ for (readingNumber = 0; readingNumber < numReadings; readingNumber++) {
     analogValues[readingNumber] = average;
     readingNumber++;
   }
-  small2big();  // sort the array in order small -> large
+    int out, in, swapper;
+  for(out=0 ; out < numReadings; out++) {  // outer loop
+    for(in=out; in<(numReadings-1); in++)  {  // inner loop
+      if( analogValues[in] > analogValues[in+1] ) { 
+        // swap them:
+        swapper = analogValues[in];
+        analogValues [in] = analogValues[in+1];
+        analogValues[in+1] = swapper;
+          }
+  }
+}
   median = analogValues[numReadings / 2]; //gets the median
   threshold=median+60;
 //^^ Experimental median shart
@@ -77,18 +92,4 @@ if (average>threshold && binaryrange==0){
 
 delay(8); // delay in between reads for stability
 i++; 
-}
-
-void small2big() {
-  int out, in, swapper;
-  for(out=0 ; out < numReadings; out++) {  // outer loop
-    for(in=out; in<(numReadings-1); in++)  {  // inner loop
-      if( analogValues[in] > analogValues[in+1] ) { 
-        // swap them:
-        swapper = analogValues[in];
-        analogValues [in] = analogValues[in+1];
-        analogValues[in+1] = swapper;
-      }
-    }
-  }
 }
