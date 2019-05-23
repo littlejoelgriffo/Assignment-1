@@ -76,7 +76,7 @@ for (readingNumber = 0; readingNumber < numReadings; readingNumber++) {
 //***************
 //***BPM Code:
 //***************
-//int threshold=460; //if shit goes wrong with bpm, activate and play with value
+int threshold=460; //play with this value depending on user. deactivate to try median code
 if (average<threshold){
   binaryrange=0; }
 if (average>threshold && binaryrange==0){
