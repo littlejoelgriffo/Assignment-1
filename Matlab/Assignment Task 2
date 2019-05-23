@@ -1,0 +1,70 @@
+clc;
+close all;
+clear all;
+T2=imread("T2.png");
+T2 = double(T2);
+% imshow(T2);
+whitest_sofar=0;
+area=0;
+size=size(T2);
+ for y=1:size(1)
+for x=1:size(2)
+        if T2(y,x) >= whitest_sofar
+            whitest_sofar=T2(y,x);
+            centre(1)=x;
+            centre(2)=y;
+        end
+    end
+ end
+ Iy(size(1),size(2))=0;  
+ Ix(size(1),size(2))=0;  
+ sobeledT2(size(1),size(2))=0;
+%  experimental stuff (Sobel)
+for y=2:size(1)-1
+    for x=2:size(2)-1
+        Ix(y,x) = T2(y+1,x-1)*1+T2(y+1,x)*0+T2(y+1,x+1)*-1+T2(y,x-1)*2+T2(y,x)*0+T2(y,x+1)*-2+T2(y-1,x-1)*1+T2(y-1,x)*0+T2(y-1,x+1)*-1;
+        Iy(y,x) = T2(y+1,x-1)*1+T2(y+1,x)*2+T2(y+1,x+1)*1+T2(y,x-1)*0+T2(y,x)*0 +T2(y,x+1)*0 +T2(y-1,x-1)*-1 +T2(y-1,x)*-2 +T2(y-1,x+1)*-1;
+        sobeledT2(y,x)=sqrt((Ix(y,x)^2)+(Iy(y,x)^2));
+    
+    end
+end
+
+%find first spot
+binaryswitch=0;
+for y=1:size(1)
+for x=1:size(2)
+        if sobeledT2(y,x) >=100 && binaryswitch==0
+            firstspot(1)=x;
+            firstspot(2)=y;
+            binaryswitch=1;
+        end
+    end
+end
+for y=1:size(1)
+for x=1:size(2)
+   
+        if sobeledT2(y,x)>=100
+            sndspot(1)=x;
+            sndspot(2)=y;
+        end
+    end
+end
+%Don't need this; anymore as i have proven that my method of first spot and second spot work
+%If my method above to find the centre is not sophisticated enough for
+%marks, use below:
+%centretest(1)= (sndspot(1)+firstspot(1))/2; 
+%centretest(2)= (sndspot(2)+firstspot(2))/2;
+
+%Calculate radius (in pixels):
+radiust2=centre(2)-firstspot(2)+0.5;
+
+area=(radiust2^2)*3.1675;
+area=round(area)
+
+ 
+
+centre
+area
+%areaIf
+firstspot
+sndspot
