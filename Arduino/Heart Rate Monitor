@@ -12,45 +12,44 @@ int analogValues[100];
 //Global variables for moving median ^^
 
 //Global Variables for moving average ECG:
+//*************************************
+//****Important Variable to play with:
+const int no_averages = 2; 
+//**************************************
 unsigned long time = 0, peak1 = 0, peak2 = 0;
 int binaryrange, bpm, i=0; //not sure what i does tbh
 int threshold = 0;
-const int numReadingsA0 = 2;
-int readings[numReadingsA0]; // the readings from the analog input
+int readings[no_averages]; // the readings from the analog input
 int readIndex = 0; // the index of the current reading
 int total = 0; // the running total
 int average = 0; // the average which we will display as ECG
-int inputPin = A0;
+
 
 void setup() {
 // initialize serial communication with computer:
 Serial.begin(115200);
 // initialize all the readings to 0:
-for (int thisReading = 0; thisReading < numReadingsA0; thisReading++) {
+for (int thisReading = 0; thisReading < no_averages; thisReading++) {
 readings[thisReading] = 0;
 }
 }
 
+
 void loop() {
 time = millis();
 //*************************************************
-//***Moving Average ECG code (from lab template)
+//***Moving Average ECG code & Serial Print the average
 //*************************************************
-total = total - readings[readIndex]; // subtract the last reading
-// read from the sensor:
-readings[readIndex] = analogRead(inputPin);
-// add the reading to the total:
-total = total + readings[readIndex];
-// advance to the next position in the array:
-readIndex = readIndex + 1;
-// if we’re at the end of the array...
-if (readIndex >= numReadingsA0) {
-// ...wrap around to the beginning:
+average=0;
+readings[readIndex] = analogRead(A0);
+readIndex++;
+for (int ir=0; ir < no_averages; ir++) {
+  average = average + readings[ir];
+}
+if (readIndex >= no_averages) {    // ...wrap around to the beginning of array if it has hit the end:
 readIndex = 0;
 }
-// calculate the average:
-average = total / numReadingsA0;
-// send it to the computer as ASCII digits
+average = average/no_averages;
 Serial.print(average);
 
 //*************************************************
