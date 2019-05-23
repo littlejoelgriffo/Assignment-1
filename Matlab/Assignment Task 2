@@ -58,7 +58,11 @@ end
 %Calculate radius (in pixels):
 radiust2=centre(2)-firstspot(2)+0.5;
 
-area=(radiust2^2)*3.1675;
+area=(radiust2^2)*3.1675; %Note this is not a simple pi*r^2 formula. From counting the pixels
+%in T1 and finding the constant that would work (in the absense of pi) to give the right amount of
+%pixels for the area of T1, we use this number instead.
+%It works because T1 and T2 are the same resolution, therefore have the
+%same relation of ratio to real number of pixels in the area of a circle.
 area=round(area)
 
  
