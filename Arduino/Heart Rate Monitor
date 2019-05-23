@@ -8,11 +8,9 @@ int analogValues[100];
 //removed this headache shit
 //Global variables for moving median ^^
 
+
+
 //Global Variables for moving average ECG:
-//*************************************
-//****Important Variable to play with:
-const int no_averages = 2; 
-//**************************************
 unsigned long time = 0, peak1 = 0, peak2 = 0;
 int binaryrange, bpm, i=0; //not sure what i does tbh
 int threshold = 0;
@@ -20,7 +18,8 @@ int readings[no_averages]; // the readings from the analog input
 int readIndex = 0; // the index of the current reading
 int total = 0; // the running total
 int average = 0; // the average which we will display as ECG
-
+//****Important Variable to play with:
+const int no_averages = 2; 
 
 void setup() {
 // initialize serial communication with computer:
