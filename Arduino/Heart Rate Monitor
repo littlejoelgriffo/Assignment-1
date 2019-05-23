@@ -4,11 +4,8 @@
 #include <gfxfont.h>
 
 //Global Variables for moving median:
-int numReadings = 100; // number of samples to take
-int median = 0;      // median of the sorted samples
-int readingNumber;   // counter for the sample array
-byte position = 0;
 int analogValues[100];
+//removed this headache shit
 //Global variables for moving median ^^
 
 //Global Variables for moving average ECG:
@@ -50,29 +47,15 @@ if (readIndex >= no_averages) {    // ...wrap around to the beginning of array i
 readIndex = 0;
 }
 average = average/no_averages;
+if (average>1000) {
+  average = 600;
+}
 Serial.print(average);
 
 //*************************************************
 //***Experimental Median Shart (to determine BPM threshold)
 //*************************************************
-for (readingNumber = 0; readingNumber < numReadings; readingNumber++) {
-    //get the reading:
-    analogValues[readingNumber] = average;
-    readingNumber++;
-  }
-    int out, in, swapper;
-  for(out=0 ; out < numReadings; out++) {  // outer loop
-    for(in=out; in<(numReadings-1); in++)  {  // inner loop
-      if( analogValues[in] > analogValues[in+1] ) { 
-        // swap them:
-        swapper = analogValues[in];
-        analogValues [in] = analogValues[in+1];
-        analogValues[in+1] = swapper;
-          }
-  }
-}
-  median = analogValues[numReadings / 2]; //gets the median
-  threshold=median+60;
+//Removed it cause for the life of me it just wouldn't fucking work
 //^^ Experimental median shart
 
 //***************
