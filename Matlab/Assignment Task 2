@@ -7,6 +7,9 @@ T2 = double(T2);
 whitest_sofar=0;
 area=0;
 size=size(T2);
+d0=500;
+FOVd=63.5; %change this number (degrees) for the Field of view of the sensor
+FOV=FOVd*(pi/180); %gives FOV in radians
  for y=1:size(1)
 for x=1:size(2)
         if T2(y,x) >= whitest_sofar
@@ -65,10 +68,47 @@ area=(radiust2^2)*3.1675; %Note this is not a simple pi*r^2 formula. From counti
 %same relation of ratio to real number of pixels in the area of a circle.
 area=round(area)
 
- 
+%******************************
+%Part 4:
+%******************************
+%Diagonal of sensor:
+lilDIboi=(4.6^2 + 3.7^2)^0.5;
+%Distance from centre of circle to top edge of sensor:
+liltopEdge=centre(2)*(3.7/size(1)); %gives answer in mm
+lilleftEdge=centre(1)*(4.6/size(2)); %gives answer in mm
+%Diagonal of total viewable area (at a distance):
+bigDIboi=2*d0*tan(FOV/2);
 
-centre
-area
-%areaIf
-firstspot
-sndspot
+%Ratio of diagonal of sensor viewable area/diagonal of sensor:
+ratio=bigDIboi/lilDIboi;
+
+%Distance from centre of circle to edge of sensor viewable area:
+bigtopEdge=liltopEdge*ratio;
+bigleftEdge=lilleftEdge*ratio;
+
+%Radius of circle on sensor in mm: (note that there are 2 values as the
+%pixels are not squares.
+lilradiush=radiust2*(3.7/size(1));
+lilradiusw=radiust2*(4.6/size(2));
+%Radius of circle in real life (again two values as we do not know whether
+%the object is a circle in real life or an oval
+bigradiush=lilradiush*ratio;
+bigradiusw=lilradiusw*ratio;
+
+%Area of one pixel (sensor) in mm
+lilarea1px=(3.7/size(1))*(4.6/size(2));
+%Area of one pixel real life in mm:
+bigarea1px=lilarea1px*ratio;
+%Area of circle in real life:
+area_at_distance=area*bigarea1px;
+
+% centre
+% area
+% %areaIf
+% firstspot
+% sndspot
+bigtopEdge
+bigleftEdge
+bigradiush
+bigradiusw
+area_at_distance
