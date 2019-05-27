@@ -3,14 +3,14 @@
 #include <Adafruit_SPITFT_Macros.h>
 #include <gfxfont.h>
 
-//Global Variables for moving median:
+//Global Variables for moving max:
 const int howmany=100;
 int analogValues[howmany];
 int ir = 0;
 int maxA0 = 0;
 int threshold = 0;
 
-//Global variables for moving median ^^
+//Global variables for moving max ^^
     
 //Global Variables for moving average ECG:
 //*************************************
@@ -23,7 +23,7 @@ int binaryrange, bpm, i = 0;   //not sure what i does tbh
 int readings[no_averages];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
 int total = 0;                  // the running total
-int average = 0;                // the average which we will display as ECG
+int average = 0, averageVolts=0;                // the average which we will display as ECG
 void setup()
 {
     
@@ -34,7 +34,7 @@ void setup()
         for (int thisReading = 0; thisReading < no_averages; thisReading++) {
         readings[thisReading] = 0;
     } 
-//set moving median shit to zero
+//set moving max shit to zero
         for (int is = 0; is < howmany; is++) {
         analogValues[is] = 0;
 } } void loop()
@@ -60,24 +60,26 @@ void setup()
     if (average > 1000) {
         average = 600;
     }
-    Serial.print(average);
+
+    averageVolts = (5/1023) *average;
+    Serial.print(averageVolts);
     
 //*************************************************
-//***Experimental Median Shart (to determine BPM threshold)
+//***To Determine Bpm threshold
 //*************************************************
     analogValues[ir] = average;
     ir++;
     if (ir >= howmany) {
         ir = 0;
         maxA0=0;
-    }                           //This is to roll back to the start of the array if it surpasses the 100th array spot
+    }                           //This is to roll back to the start of the array if it surpasses the last array spot
     for (int is = 0; is < howmany; is++) {
         if (analogValues[is] > maxA0) {
             maxA0 = analogValues[is];
     }
     }
     
-//^^ Experimental median shart
+
         threshold = maxA0 - 100;
     
 //***************
