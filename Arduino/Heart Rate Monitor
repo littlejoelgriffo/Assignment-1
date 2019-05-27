@@ -4,7 +4,8 @@
 #include <gfxfont.h>
 
 //Global Variables for moving median:
-int analogValues[100];
+const int howmany=100;
+int analogValues[howmany];
 int ir = 0;
 int maxA0 = 0;
 int threshold = 0;
@@ -34,10 +35,11 @@ void setup()
         readings[thisReading] = 0;
     } 
 //set moving median shit to zero
-        for (int is = 0; is < 100; is++) {
+        for (int is = 0; is < howmany; is++) {
         analogValues[is] = 0;
 } } void loop()
 {
+
     
         //int maxA0=0; //Whether I intitate the variables here or globally, same error
         //int threshold = 0;
@@ -63,18 +65,20 @@ void setup()
 //*************************************************
 //***Experimental Median Shart (to determine BPM threshold)
 //*************************************************
-        analogValues[ir] = average;
+    analogValues[ir] = average;
     ir++;
-    if (ir >= 100) {
+    if (ir >= howmany) {
         ir = 0;
+        maxA0=0;
     }                           //This is to roll back to the start of the array if it surpasses the 100th array spot
-    for (int is = 0; is < 100; is++) {
-        if (analogValues[is] > analogValues[is - 1])
-            analogValues[is] = maxA0;
+    for (int is = 0; is < howmany; is++) {
+        if (analogValues[is] > maxA0) {
+            maxA0 = analogValues[is];
+    }
     }
     
 //^^ Experimental median shart
-        threshold = maxA0 - 40;
+        threshold = maxA0 - 100;
     
 //***************
 //***BPM Code:
@@ -89,8 +93,10 @@ void setup()
         bpm = 60000 / (peak2 - peak1);
         binaryrange = 1;
     }
+    if (time>110) {
     Serial.print(" ");
     Serial.println(bpm);
+    }
     
 //BPM code ^^
         delay(8);             // delay in between reads for stability
