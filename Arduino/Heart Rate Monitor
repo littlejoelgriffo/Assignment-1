@@ -5,75 +5,94 @@
 
 //Global Variables for moving median:
 int analogValues[100];
-//removed this headache shit
-//Global variables for moving median ^^
-
-
-
-//Global Variables for moving average ECG:
-unsigned long time = 0, peak1 = 0, peak2 = 0;
-int binaryrange, bpm, i=0; //not sure what i does tbh
+int ir = 0;
+int maxA0 = 0;
 int threshold = 0;
-int readings[no_averages]; // the readings from the analog input
-int readIndex = 0; // the index of the current reading
-int total = 0; // the running total
-int average = 0; // the average which we will display as ECG
+
+//Global variables for moving median ^^
+    
+//Global Variables for moving average ECG:
+//*************************************
 //****Important Variable to play with:
-const int no_averages = 2; 
+const int no_averages = 2;
 
-void setup() {
+//**************************************
+unsigned long time = 0, peak1 = 0, peak2 = 0;
+int binaryrange, bpm, i = 0;   //not sure what i does tbh
+int readings[no_averages];      // the readings from the analog input
+int readIndex = 0;              // the index of the current reading
+int total = 0;                  // the running total
+int average = 0;                // the average which we will display as ECG
+void setup()
+{
+    
 // initialize serial communication with computer:
-Serial.begin(115200);
+        Serial.begin(115200);
+    
 // initialize all the readings to 0:
-for (int thisReading = 0; thisReading < no_averages; thisReading++) {
-readings[thisReading] = 0;
-}
-}
-
-
-void loop() {
-time = millis();
+        for (int thisReading = 0; thisReading < no_averages; thisReading++) {
+        readings[thisReading] = 0;
+    } 
+//set moving median shit to zero
+        for (int is = 0; is < 100; is++) {
+        analogValues[is] = 0;
+} } void loop()
+{
+    
+        //int maxA0=0; //Whether I intitate the variables here or globally, same error
+        //int threshold = 0;
+        time = millis();
+    
 //*************************************************
 //***Moving Average ECG code & Serial Print the average
 //*************************************************
-average=0;
-readings[readIndex] = analogRead(A0);
-readIndex++;
-for (int ir=0; ir < no_averages; ir++) {
-  average = average + readings[ir];
-}
-if (readIndex >= no_averages) {    // ...wrap around to the beginning of array if it has hit the end:
-readIndex = 0;
-}
-average = average/no_averages;
-if (average>1000) {
-  average = 600;
-}
-Serial.print(average);
-
+        average = 0;
+    readings[readIndex] = analogRead(A0);
+    readIndex++;
+    for (int ir = 0; ir < no_averages; ir++) {
+        average = average + readings[ir];
+    } if (readIndex >= no_averages) { // ...wrap around to the beginning of array if it has hit the end:
+        readIndex = 0;
+    }
+    average = average / no_averages;
+    if (average > 1000) {
+        average = 600;
+    }
+    Serial.print(average);
+    
 //*************************************************
 //***Experimental Median Shart (to determine BPM threshold)
 //*************************************************
-//Removed it cause for the life of me it just wouldn't fucking work
+        analogValues[ir] = average;
+    ir++;
+    if (ir >= 100) {
+        ir = 0;
+    }                           //This is to roll back to the start of the array if it surpasses the 100th array spot
+    for (int is = 0; is < 100; is++) {
+        if (analogValues[is] > analogValues[is - 1])
+            analogValues[is] = maxA0;
+    }
+    
 //^^ Experimental median shart
-
+        threshold = maxA0 - 40;
+    
 //***************
 //***BPM Code:
 //***************
-threshold=410; //if shit goes wrong with bpm, activate and play with value
-if (average<threshold){
-  binaryrange=0; }
-if (average>threshold && binaryrange==0){
-  peak1=peak2;
-  peak2=time;
-  bpm=60000/(peak2-peak1);
-  binaryrange=1;
-  } 
-   Serial.print(" ");
-  Serial.println(bpm);
+//threshold=410; //if shit goes wrong with bpm, activate and play with value
+        if (average < threshold) {
+        binaryrange = 0;
+    }
+    if (average > threshold && binaryrange == 0) {
+        peak1 = peak2;
+        peak2 = time;
+        bpm = 60000 / (peak2 - peak1);
+        binaryrange = 1;
+    }
+    Serial.print(" ");
+    Serial.println(bpm);
+    
 //BPM code ^^
-
-
-delay(8); // delay in between reads for stability
-i++; 
+        delay(8);             // delay in between reads for stability
+    i++;
 }
