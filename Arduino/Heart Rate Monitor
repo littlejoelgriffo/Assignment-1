@@ -62,7 +62,7 @@ void setup()
     }
 
     averageVolts = (5/1023) *average;
-    Serial.print(averageVolts);
+    Serial.print(average);
     
 //*************************************************
 //***To Determine Bpm threshold
@@ -85,7 +85,7 @@ void setup()
 //***************
 //***BPM Code:
 //***************
-//threshold=410; //if shit goes wrong with bpm, activate and play with value
+//threshold=455; //if shit goes wrong with bpm, activate and play with value
         if (average < threshold) {
         binaryrange = 0;
     }
