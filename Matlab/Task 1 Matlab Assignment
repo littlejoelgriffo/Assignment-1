@@ -13,22 +13,22 @@ sensorh=3.7; %in millimetres
 %Determine the size of a pixel on the sensor:
 pixelh=sensorh/size(1); %finds the height of a pixel
 pixelw=sensorw/size(2); %finds the width of a pixel
-px=(pixelh+pixelw)/2 %as we can assume pixels are square, we take the average of height+width
+pxside=(pixelh+pixelw)/2; %as we can assume pixels are square, we take the average of height+width
 
 for y=1:size(1)
-for x=1:size(2)
-   
+    for x=1:size(2)
+        
         if T1(y,x)==255 && binaryswitch==0
             firstspot(1)=x;
             firstspot(2)=y;
             binaryswitch=1;
         end
     end
- end
- 
+end
+
 for y=1:size(1)
-for x=1:size(2)
-   
+    for x=1:size(2)
+        
         if T1(y,x)==255
             sndspot(1)=x;
             sndspot(2)=y;
@@ -42,14 +42,14 @@ centre(2)= (sndspot(2)+firstspot(2))/2;
 
 radiuspx=centre(2)-firstspot(2)+0.5;
 
-% area=pi*radius^(2) 
+% area=pi*radius^(2)
 %^ depends on what definition of area we need, probably leave deactivated
 
 %******************************
 %Part 4:
 %******************************
 %Diagonal of sensor:
-lilDIboi=(sensorw^2 + sensorh^2)^0.5;
+lilDIboi=sqrt(sensorw^2 + sensorh^2);
 
 %Diagonal of total viewable area (at a distance):
 bigDIboi=2*d0*tan(FOV/2);
@@ -58,14 +58,12 @@ bigDIboi=2*d0*tan(FOV/2);
 ratio=bigDIboi/lilDIboi;
 
 %Radius of circle on sensor in mm:
-lilradius=radiuspx*px;
-%Radius of circle in real life (again two values as we do not know whether
-%the object is a circle in real life or an oval
-bigradiush=lilradiush*ratio;
-bigradiusw=lilradiusw*ratio;
+lilradius=radiuspx*pxside;
+%Radius of circle in real life 
+bigradius=lilradius*ratio;
 
 %Area of one pixel (sensor) in mm
-lilarea1px=(sensorh/size(1))*(sensorw/size(2));
+lilarea1px=pxside^2;
 %Area of one pixel real life in mm:
 bigarea1px=lilarea1px*ratio;
 %Area of circle in real life:
@@ -76,8 +74,7 @@ area_at_distance=area*bigarea1px;
 % centre
 % radiuspx
 % area
-% bigradiush
-% bigradiusw
+% bigradius
 % area_at_distance
 
 %code that i've had to change due to assignment pdf changing:
