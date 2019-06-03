@@ -1,104 +1,118 @@
 clc;
+close all;
 clear all;
-T1=imread("T1.png");
-binaryswitch=0;
-areapx=0;
-FOVd=100; %change this number (degrees) for the Field of view of the sensor
+T2=imread("T2.png");
+T2 = double(T2);
+% imshow(T2);
+whitest_sofar=0;
+area=0;
+size=size(T2);
+d0=500;
+FOVd=63.5; %change this number (degrees) for the Field of view of the sensor
 FOV=FOVd*(pi/180); %gives FOV in radians
-d0=1000; %Setting the distance
-size=size(T1);
-sensorw=4.93; %in millimetres
-sensorh=3.7; %in millimetres
+threshold=90
+ for y=1:size(1)
+for x=1:size(2)
+        if T2(y,x) >= whitest_sofar
+            whitest_sofar=T2(y,x);
+            centre(1)=x;
+            centre(2)=y;
+        end
+    end
+ end
+ Iy(size(1),size(2))=0;  
+ Ix(size(1),size(2))=0;  
+ sobT2(size(1),size(2))=0;
+%  experimental stuff (Sobel)
+for y=2:size(1)-1
+    for x=2:size(2)-1
+        Ix(y,x) = T2(y+1,x-1)*1+T2(y+1,x)*0+T2(y+1,x+1)*-1+T2(y,x-1)*2+T2(y,x)*0+T2(y,x+1)*-2+T2(y-1,x-1)*1+T2(y-1,x)*0+T2(y-1,x+1)*-1;
+        Iy(y,x) = T2(y+1,x-1)*1+T2(y+1,x)*2+T2(y+1,x+1)*1+T2(y,x-1)*0+T2(y,x)*0 +T2(y,x+1)*0 +T2(y-1,x-1)*-1 +T2(y-1,x)*-2 +T2(y-1,x+1)*-1;
+        sobT2(y,x)=sqrt((Ix(y,x)^2)+(Iy(y,x)^2));
+    if sobT2(y,x)>threshold
+        area=area+1;
+    end
+    end
+end
 
-%Determine the size of a pixel on the sensor:
-pixelh=sensorh/size(1); %finds the height of a pixel
-pixelw=sensorw/size(2); %finds the width of a pixel
-pxside=(pixelh+pixelw)/2; %as we can assume pixels are square, we take the average of height+width
-
+%find first spot
+binaryswitch=0;
 for y=1:size(1)
-    for x=1:size(2)
-        
-        if T1(y,x)==255 && binaryswitch==0
+for x=1:size(2)
+        if sobT2(y,x) >=100 && binaryswitch==0
             firstspot(1)=x;
             firstspot(2)=y;
             binaryswitch=1;
         end
     end
 end
-
 for y=1:size(1)
-    for x=1:size(2)
-        
-        if T1(y,x)==255
-            lastpot(1)=x;
-            lastpot(2)=y;
-            areapx=areapx+1;
+for x=1:size(2)
+   
+        if sobT2(y,x)>=100
+            sndspot(1)=x;
+            sndspot(2)=y;
         end
     end
 end
+%Don't need this; anymore as i have proven that my method of first spot and second spot work
+%If my method above to find the centre is not sophisticated enough for
+%marks, use below:
+%centretest(1)= (sndspot(1)+firstspot(1))/2; 
+%centretest(2)= (sndspot(2)+firstspot(2))/2;
 
-centre(1)= (lastpot(1)+firstspot(1))/2;
-centre(2)= (lastpot(2)+firstspot(2))/2;
+%Calculate radius (in pixels):
+radiust2=centre(2)-firstspot(2)+0.5;
 
-radiuspx=centre(2)-firstspot(2)+0.5;
-
-% area=pi*radius^(2)
-%^ depends on what definition of area we need, probably leave deactivated
+%area=(radiust2^2)*3.1675; %Note this is not a simple pi*r^2 formula. From counting the pixels
+%in T1 and finding the constant that would work (in the absense of pi) to give the right amount of
+%pixels for the area of T1, we use this number instead.
+%It works because T1 and T2 are the same resolution, therefore have the
+%same relation of ratio to real number of pixels in the area of a circle.
+%area=round(area)
 
 %******************************
 %Part 4:
 %******************************
 %Diagonal of sensor:
-lilDIboi=sqrt(sensorw^2 + sensorh^2);
-
+lilDIboi=(4.6^2 + 3.7^2)^0.5;
+%Distance from centre of circle to top edge of sensor:
+liltopEdge=centre(2)*(3.7/size(1)); %gives answer in mm
+lilleftEdge=centre(1)*(4.6/size(2)); %gives answer in mm
 %Diagonal of total viewable area (at a distance):
 bigDIboi=2*d0*tan(FOV/2);
 
 %Ratio of diagonal of sensor viewable area/diagonal of sensor:
 ratio=bigDIboi/lilDIboi;
 
-%Radius of circle on sensor in mm:
-lilradius=radiuspx*pxside;
-%Radius of circle in real life 
-bigradius=(lilradius*ratio)/1000; %gives answer in m;
+%Distance from centre of circle to edge of sensor viewable area:
+bigtopEdge=liltopEdge*ratio;
+bigleftEdge=lilleftEdge*ratio;
 
-%*******************************************************
-%Code for determining distance from centre of circle to top left corner of
-%viewing area rectangle. (in metres)
-topleft2centrecircle=sqrt(2*(pxside*(centre(1)-0.5)*ratio)^2)/1000;
-%we take 0.5 off the centre to find the centre of the pixel rather than the
-%bottom right corner, which would give a slighter larger i(incorrect)
-%answer
-
+%Radius of circle on sensor in mm: (note that there are 2 values as the
+%pixels are not squares.
+lilradiush=radiust2*(3.7/size(1));
+lilradiusw=radiust2*(4.6/size(2));
+%Radius of circle in real life (again two values as we do not know whether
+%the object is a circle in real life or an oval
+bigradiush=lilradiush*ratio;
+bigradiusw=lilradiusw*ratio;
 
 %Area of one pixel (sensor) in mm
-lilarea1px=pxside^2;
+lilarea1px=(3.7/size(1))*(4.6/size(2));
 %Area of one pixel real life in mm:
-bigpxside=pxside*ratio;
-bigarea1px=lilarea1px*ratio^2;
+bigarea1px=lilarea1px*ratio;
 %Area of circle in real life:
-area_at_distance=(areapx*bigarea1px)/1000000; %gives answer in m^2
+area_at_distance=area*bigarea1px;
 
 
-
-%Answers below:
-centre
-radiuspx
-areapx
-topleft2centrecircle
-bigradius
-area_at_distance
-
-
-%code that i've had to change due to assignment pdf changing:
-% FOVd=63.5;
-%Radius of circle on sensor in mm:
-% lilradiush=radiuspx*(sensorh/size(1));
-% lilradiusw=radiuspx*(sensorw/size(2));
-% liltopEdge=centre(2)*(sensorh/size(1)); %gives answer in mm
-% lilleftEdge=centre(1)*(sensorw/size(2)); %gives answer in mm
-% bigtopEdge=liltopEdge*ratio;
-% bigleftEdge=lilleftEdge*ratio;
-
-
-
+% centre
+% area
+% %areaIf
+% firstspot
+% sndspot
+% bigtopEdge
+% bigleftEdge
+% bigradiush
+% bigradiusw
+% area_at_distance
