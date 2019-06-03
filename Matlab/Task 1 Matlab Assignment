@@ -2,7 +2,7 @@ clc;
 clear all;
 T1=imread("T1.png");
 binaryswitch=0;
-area=0;
+areapx=0;
 FOVd=100; %change this number (degrees) for the Field of view of the sensor
 FOV=FOVd*(pi/180); %gives FOV in radians
 d0=1000; %Setting the distance
@@ -30,15 +30,15 @@ for y=1:size(1)
     for x=1:size(2)
         
         if T1(y,x)==255
-            sndspot(1)=x;
-            sndspot(2)=y;
-            area=area+1;
+            lastpot(1)=x;
+            lastpot(2)=y;
+            areapx=areapx+1;
         end
     end
 end
 
-centre(1)= (sndspot(1)+firstspot(1))/2;
-centre(2)= (sndspot(2)+firstspot(2))/2;
+centre(1)= (lastpot(1)+firstspot(1))/2;
+centre(2)= (lastpot(2)+firstspot(2))/2;
 
 radiuspx=centre(2)-firstspot(2)+0.5;
 
@@ -60,22 +60,35 @@ ratio=bigDIboi/lilDIboi;
 %Radius of circle on sensor in mm:
 lilradius=radiuspx*pxside;
 %Radius of circle in real life 
-bigradius=lilradius*ratio;
+bigradius=(lilradius*ratio)/1000; %gives answer in m;
+
+%*******************************************************
+%Code for determining distance from centre of circle to top left corner of
+%viewing area rectangle. (in metres)
+topleft2centrecircle=sqrt(2*(pxside*(centre(1)-0.5)*ratio)^2)/1000;
+%we take 0.5 off the centre to find the centre of the pixel rather than the
+%bottom right corner, which would give a slighter larger i(incorrect)
+%answer
+
 
 %Area of one pixel (sensor) in mm
 lilarea1px=pxside^2;
 %Area of one pixel real life in mm:
-bigarea1px=lilarea1px*ratio;
+bigpxside=pxside*ratio;
+bigarea1px=lilarea1px*ratio^2;
 %Area of circle in real life:
-area_at_distance=area*bigarea1px;
+area_at_distance=(areapx*bigarea1px)/1000000; %gives answer in m^2
+
 
 
 %Answers below:
-% centre
-% radiuspx
-% area
-% bigradius
-% area_at_distance
+centre
+radiuspx
+areapx
+topleft2centrecircle
+bigradius
+area_at_distance
+
 
 %code that i've had to change due to assignment pdf changing:
 % FOVd=63.5;
@@ -86,5 +99,6 @@ area_at_distance=area*bigarea1px;
 % lilleftEdge=centre(1)*(sensorw/size(2)); %gives answer in mm
 % bigtopEdge=liltopEdge*ratio;
 % bigleftEdge=lilleftEdge*ratio;
+
 
 
